@@ -2,20 +2,54 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-class App extends Component {
+class Item extends Component {
+constructor(props) {
+  super(props);
+  this.state={ 
+    items: [
+    {name:"Vitamin A", quantity: 12, price: 10},
+    {name:"Vitamin B", quantity: 15, price: 19},
+    {name:"Vitamin C", quantity: 17, price: 17},
+    {name:"Vitamin D", quantity: 18, price: 13}]
+
+    };
+    
+  }
+
+
   render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+    var component = this;
+    var item_array = this.state.items.map(function(items){
+      return(
+
+        <tr>
+            <td>{items.name}</td> &nbsp; &nbsp;
+            <td>{items.quantity}</td> &nbsp; &nbsp;
+            <td>{items.price}</td> &nbsp; &nbsp;
+        </tr>
+      );
+    });
+
+    return  (
+    <div>  
+     <div className="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+       <tbody>
+        <tr>
+          <th>Item</th> &nbsp; &nbsp;
+          <th>Quantity</th> &nbsp; &nbsp;
+          <th>Price</th> &nbsp; &nbsp;
+        </tr>
+        {item_array}
+      </tbody>
+     </div>
+     <div className="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+      Checkout
+      
+     </div>
+    </div>
+
     );
   }
 }
 
-export default App;
+export default Item;
