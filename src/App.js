@@ -10,22 +10,17 @@ class OneItem extends Component {
     this.minus = this.minus.bind(this);
 } 
 
-add(n,q,p){
-    this.setState({quantity: this.state.quantity + 1});
-    var orderss = {name:n, quantity: q, price: p};
-    this.setState({orders: this.state.orders.concat(orderss)});
+add(){
 }
 
 minus(){
-    this.setState({quantity: this.state.quantity - 1});
-}
+    }
 
     render(){
       return(
         <div>
           
-          <button onClick={this.add}>+</button>
-          <button onClick={this.minus}>-</button>
+          
         </div>
       );
     }
@@ -35,17 +30,6 @@ minus(){
 class CheckOut extends Component {
 
   render(){
-    var ordersz = this.props.ordersz.map(function(item){
-      return(
-
-        <tr>
-            <td>{item.name}</td> &nbsp; &nbsp;
-            <td>{item.quantity}</td> &nbsp; &nbsp;
-            <td>{item.price}</td> &nbsp; &nbsp;
-        </tr>   
-      );
-    });
-
     return(
     <div>
       <input type="text" placeholder="Search"  style = {{width: 390}}/>
@@ -176,7 +160,7 @@ constructor(props) {
       </div>
      </div>
      <div className="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-        <CheckOut ordersz={this.state.orders}/>  
+        <CheckOut/>  
      </div>
     </div>
 
