@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+
+
+
+
 class Action extends Component {
   constructor(props) {
     super(props);
@@ -24,9 +28,6 @@ class Action extends Component {
       <div>
       <button onClick={this.add}>+</button>
       <button onClick={this.minus}>-</button>
-  
-      <hr/>
-
       </div>
 
     );
@@ -49,13 +50,13 @@ class ItemForm extends Component {
     e.preventDefault();
      var product = {
       name: this.refs.name.value, 
-      quantity: this.refs.name.value, 
+      quantity: this.refs.quantity.value, 
       price: parseInt(this.refs.price.value)
     };
     this.props.handleCreate(product);
     alert(product.name + " has been added");
     this.refs.name.value="";
-    this.refs.quantity.value=""
+    this.refs.quantity.value="";
     this.refs.price.value="";
 
   }
@@ -65,8 +66,8 @@ class ItemForm extends Component {
     return(
 
       <form onSubmit={this.submit}>
-        <input type="text" placeholder="Type Item" ref="name"/>
-        <input type="text" placeholder="Type quantity" ref="quantity"/>
+        <input type="text" placeholder="Type Item" ref="name"/><br/>
+        <input type="text" placeholder="Type quantity" ref="quantity"/><br/>
         <input type="text" placeholder="Type price" ref="price"/>
         <br/>
         <button>Add to Inventory</button>
@@ -136,7 +137,9 @@ constructor(props) {
       </div>
      </div>
      <div className="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-      Checkout
+      <input type="text" placeholder="Search"/>
+      <br/>
+ 
       
      </div>
     </div>
