@@ -7,20 +7,39 @@ class OneItem extends Component {
     super(props);
     this.quantity = {quantity:0};
     this.add = this.add.bind(this);
-    this.minus = this.minus.bind(this);
+    this.remove = this.remove.bind(this);
+    this.show = this.show.bind(this);
 } 
 
 add(){
+  if (this.props.quantity != 0){
+    this.setState({quantity: this.state.quantity + 1});
+    this.props.handleTotal(this.props.price);
+    this.props.handleQuantity(this.props.name, -1, this.props.price);
+  }
 }
 
-minus(){
+remove(){
+    if (this.state.quantity != 0){
+      this.setState({quantity: this.state.quantity - 1});
+      this.props.handleTotal(-this.props.price);
+      this.props.handleQty(this.props.name, 1, -this.props.price);
     }
+  }
+
+show(){
+    this.props.handleShow(this.props.name);
+  }
 
     render(){
       return(
         <div>
-          
-          
+             <tr>
+              <td>{this.props.name}</td>
+              <td>{this.props.quantity}</td>
+              <td>P{this.props.price}</td> 
+            </tr>
+       
         </div>
       );
     }
@@ -42,7 +61,11 @@ class CheckOut extends Component {
           <th>Item</th> &nbsp; &nbsp;
           <th>Quantity</th> &nbsp; &nbsp;
           <th>Price</th> &nbsp; &nbsp;
-          <OneItem/>
+        </tr>
+        <tr>
+          <td> {this.props.name} </td>
+          <td> {this.props.quantity} </td>
+          <td> {this.props.price} </td>
         </tr>
         
       </tbody>
