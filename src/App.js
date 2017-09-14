@@ -2,40 +2,79 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-
-
-
-
-class Action extends Component {
+class OneItem extends Component {
   constructor(props) {
     super(props);
-  this.quantity = {quantity:0};
-  this.add = this.add.bind(this);
-  this.minus = this.minus.bind(this);
-  }
+    this.quantity = {quantity:0};
+    this.add = this.add.bind(this);
+    this.minus = this.minus.bind(this);
+} 
 
-  add(){
+add(n,q,p){
     this.setState({quantity: this.state.quantity + 1});
-  }
+    var orderss = {name:n, quantity: q, price: p};
+    this.setState({orders: this.state.orders.concat(orderss)});
+}
 
-  minus(){
+minus(){
     this.setState({quantity: this.state.quantity - 1});
+}
+
+    render(){
+      return(
+        <div>
+          
+          <button onClick={this.add}>+</button>
+          <button onClick={this.minus}>-</button>
+        </div>
+      );
+    }
   }
 
-  render() {
-    return (
 
-      <div>
-      <button onClick={this.add}>+</button>
-      <button onClick={this.minus}>-</button>
-      </div>
+class CheckOut extends Component {
+
+  render(){
+    var ordersz = this.props.ordersz.map(function(item){
+      return(
+
+        <tr>
+            <td>{item.name}</td> &nbsp; &nbsp;
+            <td>{item.quantity}</td> &nbsp; &nbsp;
+            <td>{item.price}</td> &nbsp; &nbsp;
+        </tr>   
+      );
+    });
+
+    return(
+    <div>
+      <input type="text" placeholder="Search"  style = {{width: 390}}/>
+      <br/>
+      <br/>
+        <div className="selected">
+        Orders
+        <tbody>
+        <tr>
+          <th>Item</th> &nbsp; &nbsp;
+          <th>Quantity</th> &nbsp; &nbsp;
+          <th>Price</th> &nbsp; &nbsp;
+          <OneItem/>
+        </tr>
+        
+      </tbody>
+
+        </div>
+        <br/>
+        Discount:
+        <br/>
+        Subtotal:
+        <br/>
+        Total:
+    </div>
 
     );
   }
 }
-
-
-
 
 
 
@@ -66,9 +105,9 @@ class ItemForm extends Component {
     return(
 
       <form onSubmit={this.submit}>
-        <input type="text" placeholder="Type Item" ref="name"/><br/>
-        <input type="text" placeholder="Type quantity" ref="quantity"/><br/>
-        <input type="text" placeholder="Type price" ref="price"/>
+        <input type="text" placeholder="Type Item" ref="name" style = {{width: 300}}/><br/>
+        <input type="text" placeholder="Type quantity" ref="quantity" style = {{width: 300}}/><br/>
+        <input type="text" placeholder="Type price" ref="price" style = {{width: 300}}/>
         <br/>
         <button>Add to Inventory</button>
 
@@ -91,14 +130,11 @@ constructor(props) {
     {name:"Vitamin A", quantity: 12, price: 10},
     {name:"Vitamin B", quantity: 15, price: 19},
     {name:"Vitamin C", quantity: 17, price: 17},
-    {name:"Vitamin D", quantity: 18, price: 13}]
-
+    {name:"Vitamin C", quantity: 17, price: 17}],orders:[]
     };
     this.createProduct = this.createProduct.bind(this);
-    
   }
-
-
+ 
  createProduct(product) {
     this.setState({
       items: this.state.items.concat(product)
@@ -112,11 +148,13 @@ constructor(props) {
       return(
 
         <tr>
+
             <td>{items.name}</td> &nbsp; &nbsp;
             <td>{items.quantity}</td> &nbsp; &nbsp;
             <td>{items.price}</td> &nbsp; &nbsp;
-            <td><Action/></td>
-        </tr>
+            <td><button onClick={component.add}>+</button></td>
+            <td><button onClick={component.minus}>-</button></td>
+        </tr>   
       );
     });
 
@@ -130,17 +168,15 @@ constructor(props) {
           <th>Item</th> &nbsp; &nbsp;
           <th>Quantity</th> &nbsp; &nbsp;
           <th>Price</th> &nbsp; &nbsp;
-          <th>Action</th> &nbsp; &nbsp;
+          <th>Buy</th> &nbsp; &nbsp;
+
         </tr>
         {item_array}
       </tbody>
       </div>
      </div>
      <div className="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-      <input type="text" placeholder="Search"/>
-      <br/>
- 
-      
+        <CheckOut ordersz={this.state.orders}/>  
      </div>
     </div>
 
