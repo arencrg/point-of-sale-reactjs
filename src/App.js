@@ -2,10 +2,37 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+class Action extends Component {
+  constructor(props) {
+    super(props);
+  this.quantity = {quantity:0};
+  this.add = this.add.bind(this);
+  this.minus = this.minus.bind(this);
+  }
 
-class Checkout extends Component {
+  add(){
+    this.setState({quantity: this.state.quantity + 1});
+  }
+
+  minus(){
+    this.setState({quantity: this.state.quantity - 1});
+  }
+
+  render() {
+    return (
+
+      <div>
+      <button onClick={this.add}>+</button>
+      <button onClick={this.minus}>-</button>
   
+      <hr/>
+
+      </div>
+
+    );
+  }
 }
+
 
 
 
@@ -87,6 +114,7 @@ constructor(props) {
             <td>{items.name}</td> &nbsp; &nbsp;
             <td>{items.quantity}</td> &nbsp; &nbsp;
             <td>{items.price}</td> &nbsp; &nbsp;
+            <td><Action/></td>
         </tr>
       );
     });
@@ -95,14 +123,17 @@ constructor(props) {
     <div>  
      <div className="col-xs-12 col-sm-6 col-md-4 col-lg-4">
        <ItemForm handleCreate={this.createProduct}/>
+       <div className="list">
        <tbody>
         <tr>
           <th>Item</th> &nbsp; &nbsp;
           <th>Quantity</th> &nbsp; &nbsp;
           <th>Price</th> &nbsp; &nbsp;
+          <th>Action</th> &nbsp; &nbsp;
         </tr>
         {item_array}
       </tbody>
+      </div>
      </div>
      <div className="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       Checkout
