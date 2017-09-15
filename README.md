@@ -35,4 +35,18 @@ You will also see any lint errors in the console.
 #### Try editing some files
 To get started, open app.js with your favorite editor <br>
 We're building our own app so delete everything inside return()<br>
-Then add a div with className .my-app
+
+### Add Codes in app.js
+
+Add the following codes to import component and css:
+
+```
+  import React, { Component } from 'react';
+  import './App.css';
+
+```
+
+### Creating Component
+
+Components let you split the UI into different pieces.
+Create a new component Item

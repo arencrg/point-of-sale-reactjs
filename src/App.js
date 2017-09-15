@@ -2,174 +2,273 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-class CheckOut extends Component {
-  constructor(props) {
+class Product extends Component {
+  
+  constructor(props){
     super(props);
-    this.state = {quantity:0};
-    this.add = this.add.bind(this);
-    this.remove = this.remove.bind(this);
-    this.show = this.show.bind(this);
-} 
+    this.state = {qty:0};
+    this.buy = this.buy.bind(this); //bind every event
+   this.remove = this.remove.bind(this); //bind every event
+   this.show = this.show.bind(this);
 
-add(){
-  if (this.props.quantity !== 0){
-    this.setState({quantity: this.state.quantity + 1});
-    this.props.handleTotal(this.props.price);
-    this.props.handleQuantity(this.props.name, -1, this.props.price);
   }
-}
 
-remove(){
-    if (this.state.quantity !== 0){
-      this.setState({quantity: this.state.quantity - 1});
+  buy(){ // methods
+    // alert("its working");
+    if (this.props.qty != 0){
+    this.setState({qty: this.state.qty + 1});
+    this.props.handleTotal(this.props.price);
+    this.props.handleQty(this.props.name, -1, this.props.price);
+  }
+  }
+
+  remove(){
+    if (this.state.qty != 0){
+      this.setState({qty: this.state.qty - 1});
       this.props.handleTotal(-this.props.price);
-      this.props.handleQuantity(this.props.name, 1, -this.props.price);
+      this.props.handleQty(this.props.name, 1, -this.props.price);
+
     }
   }
 
-show(){
+  show(){
     this.props.handleShow(this.props.name);
+  }
+
+
+
+
+
+  render(){
+    return(
+        <div>
+          <table>
+            <tr>
+              <td>{this.props.name} ({this.props.qty}) = ${this.props.price}</td>
+              <td><button onClick={this.buy}>+</button></td>
+              <td><button onClick={this.remove}>-</button></td>
+            </tr>
+          </table>       
+           
+        </div>
+
+      );
+  }
+}
+
+
+class Total extends Component{
+  render(){
+    return(
+          <div>
+      <h3>Total Balance: ${this.props.total}</h3>
+    </div>
+    );
+  }
+}
+
+class SelectedItem extends Component{
+  render(){
+    return(
+          <div>
+            <tr>
+              <td>{this.props.name}</td>&nbsp; &nbsp;
+              <td>{this.props.qty}</td>&nbsp; &nbsp;
+              <td>{this.props.price}</td>&nbsp; &nbsp;
+            </tr>
+          </div>
+    );
+  }
+}
+
+
+
+
+
+class ProductForm extends Component{
+  constructor(props){
+    super(props);
+    this.submit = this.submit.bind(this);
+  }
+
+  submit(e){
+    e.preventDefault();
+    var product ={
+      name: this.refs.name.value,
+      price: parseInt(this.refs.price.value),
+      qty: parseInt(this.refs.qty.value)
+
+    };
+    this.props.handleCreate(product);
+    this.refs.name.value="";
+    this.refs.price.value="";
+    this.refs.qty.value="";
+
   }
 
   render(){
     return(
-    <div>
-      
-      <br/>
-      <br/>
-        <div className="selected">
-        Orders
-        <tbody>
-        <tr>
-          <th>Item</th> &nbsp; &nbsp;
-          <th>Quantity</th> &nbsp; &nbsp;
-          <th>Price</th> &nbsp; &nbsp;
-        </tr>
-        <tr>
-          <td> {this.props.name} </td>
-          <td> {this.props.quantity} </td>
-          <td> {this.props.price} </td>
-        </tr>
-        
-      </tbody>
-
-        </div>
-        
-        Total:
-    </div>
-
+      <form onSubmit={this.submit} >
+        <input type="text" placeholder="Medicine" ref="name" /><br/>
+        <input type="text" placeholder="Quantity" ref="qty" /><br/>
+        <input type="text" placeholder="Price" ref="price" /><br/>
+        <button>Add to Inventory</button>
+      </form>
     );
   }
 }
 
-
-
-class ItemForm extends Component {
-  constructor(props) {
+class ProductList extends Component{
+  constructor(props){
     super(props);
-    this.submit = this.submit.bind(this);
-
-  }
-
-  submit(e) {
-    e.preventDefault();
-     var product = {
-      name: this.refs.name.value, 
-      quantity: this.refs.quantity.value, 
-      price: parseInt(this.refs.price.value)
+    this.state = {
+      total:0, 
+      productList: [
+      {name: "Vitamin A", qty: 20, price: 10}, 
+      {name: "Vitamin B", qty: 50, price: 20},
+      {name: "Vitamin C", qty: 30, price: 40},
+      {name: "Vitamin D", qty: 40, price: 50},
+      ],
+      orders: []
     };
-    this.props.handleCreate(product);
-    alert(product.name + " has been added");
-    this.refs.name.value="";
-    this.refs.quantity.value="";
-    this.refs.price.value="";
-
-  }
-
-  
-  render() {
-    return(
-
-      <form onSubmit={this.submit}>
-        <input type="text" placeholder="Type Item" ref="name" style = {{width: 300}}/><br/>
-        <input type="text" placeholder="Type quantity" ref="quantity" style = {{width: 300}}/><br/>
-        <input type="text" placeholder="Type price" ref="price" style = {{width: 300}}/>
-        <br/>
-        <button>Add to Inventory</button>
-
-      </form>
-
-
-
-    )
-  }
-}
-
-
-
-
-class Item extends Component {
-constructor(props) {
-  super(props);
-  this.state={total: 0, 
-    items: [
-    {name:"Vitamin A", quantity: 12, price: 10},
-    {name:"Vitamin B", quantity: 15, price: 19},
-    {name:"Vitamin C", quantity: 17, price: 17},
-    {name:"Vitamin C", quantity: 17, price: 17}],orders:[]
-    };
-    
+    this.calcTotal =  this.calcTotal .bind(this);
     this.createProduct = this.createProduct.bind(this);
+    this.calcQty = this.calcQty.bind(this);
+  }
+
+  calcTotal(price){
+    this.setState({total: this.state.total + price});
+
+  }
+
+  showProduct(name){
+    alert("You are buying " + name);
+  }
+
+  calcQty(name, qty, price){
+    var component = this;
+    var products = this.state.productList.map(function(prod){
+      if (prod.name == name){
+        prod.qty = prod.qty + qty;
+        
+      }
+
+
+    });
+
+
+    if (this.state.orders.length != 0){
+       var y = false;
+      var yy;
+      for(var x = 0; x <= this.state.orders.length - 1; x++){
+        if(typeof this.state.orders[x] != "undefined"){
+          if(this.state.orders[x]["name"] == name){
+          if (qty == 1){
+            this.state.orders[x]["qty"] = this.state.orders[x]["qty"] - 1 ;
+            this.state.orders[x]["price"] = this.state.orders[x]["price"] + price ;
+            yy = this.state.orders[x]["qty"] ;
+          }else{
+            this.state.orders[x]["qty"] = this.state.orders[x]["qty"] + 1 ;
+            this.state.orders[x]["price"] = this.state.orders[x]["price"] + price ;
+          
+          }
+
+          y = true;
+          break;
+         }
+       }
+
+      }
+
+        if (y == false){
+
+            this.setState({
+              orders: this.state.orders.concat({name: name, qty: 1, price: price})
+            });
+
+         
+         }
+
+        if(yy == 0){
+           delete this.state.orders[x];
+     }
+
+    }else{
+
+          this.setState({
+      orders: this.state.orders.concat({name: name, qty: 1, price: price})
+    });
+    }
+
+  }
+
+  createProduct(product){
+    this.setState({
+     productList: this.state.productList.concat(product)
+    });
+
+  }
+
+  checkout(){
+    alert("Thank you for buying");
   }
  
- createProduct(product) {
-    this.setState({
-      items: this.state.items.concat(product)
-    });
-  }
 
-
-  render() {
+  render(){
+    
     var component = this;
-    var item_array = this.state.items.map(function(items){
+    var products = this.state.productList.map(function(prod){
       return(
-
-        <tr>
-
-            <td>{items.name}</td> &nbsp; &nbsp;
-            <td>{items.quantity}</td> &nbsp; &nbsp;
-            <td>{items.price}</td> &nbsp; &nbsp;
-            <td><button onClick={component.add}>+</button></td>
-            <td><button onClick={component.minus}>-</button></td>
-        </tr>   
+      <Product name={prod.name} qty={prod.qty} price={prod.price} handleShow={component.showProduct} handleTotal={component.calcTotal} handleQty={component.calcQty}/>
       );
     });
 
+     var items = this.state.orders;
+     var selected ;
+    if (items.length != 0){
+          selected = this.state.orders.map(function(prod){
+      return(
+      <SelectedItem name={prod.name} qty={prod.qty} price={prod.price} />
+      );
+    });
 
-    return  (
-    <div>  
-     <div className="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-       <ItemForm handleCreate={this.createProduct}/>
-       <div className="list">
-       <tbody>
-        <tr>
-          <th>Item</th> &nbsp; &nbsp;
-          <th>Quantity</th> &nbsp; &nbsp;
-          <th>Price</th> &nbsp; &nbsp;
-          <th>Buy</th> &nbsp; &nbsp;
+    }
 
-        </tr>
-        {item_array}
-      </tbody>
+
+
+    return(
+      <div>
+        <div className = "col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <ProductForm handleCreate={this.createProduct}/><br/>
+        Inventory <br/>
+        {products}
+        
+        </div>
+
+        <div className = "col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div>
+         <h3>Orders</h3>
+         <div className="box">
+            <table>
+              <tr>
+                  <th>Item</th> &nbsp; &nbsp;
+                  <th>Quantity</th> &nbsp; &nbsp;
+                  <th>Price</th> &nbsp; &nbsp;
+                </tr>
+              <tr>
+                  {selected}
+              </tr>
+            </table>
+           
+         </div>
+        </div>
+       
+        <Total total={this.state.total}/>
+        <button onClick={this.checkout}>Checkout</button>
+        </div>
       </div>
-     </div>
-     <div className="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-        <CheckOut/>  
-     </div>
-    </div>
-
     );
   }
 }
 
-export default Item;
+export default ProductList;
