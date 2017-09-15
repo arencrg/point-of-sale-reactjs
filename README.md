@@ -1,7 +1,7 @@
 
 ## Setup
-Install nodejs (https://nodejs.org)<br>
-Install create-react-app (https://github.com/facebookincubator/create-react-app)<br>
+[Install nodejs](https://nodejs.org)<br>
+[Install create-react-app](https://github.com/facebookincubator/create-react-app)<br>
 Generate your starting files
 ```
 create-react-app my-app
@@ -24,13 +24,15 @@ my-app/
     logo.svg
 ```
 In the project directory, you can run:
-### `npm start`
+```
+ npm start
+```
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
 #### Try editing some files
-To get started, open app.js with your favorite editor<br>
+To get started, open app.js with your favorite editor <br>
 We're building our own app so delete everything inside return()<br>
 Then add a div with className .my-app

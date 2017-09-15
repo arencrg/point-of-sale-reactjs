@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-class OneItem extends Component {
+class CheckOut extends Component {
   constructor(props) {
     super(props);
-    this.quantity = {quantity:0};
+    this.state = {quantity:0};
     this.add = this.add.bind(this);
     this.remove = this.remove.bind(this);
     this.show = this.show.bind(this);
 } 
 
 add(){
-  if (this.props.quantity != 0){
+  if (this.props.quantity !== 0){
     this.setState({quantity: this.state.quantity + 1});
     this.props.handleTotal(this.props.price);
     this.props.handleQuantity(this.props.name, -1, this.props.price);
@@ -20,10 +20,10 @@ add(){
 }
 
 remove(){
-    if (this.state.quantity != 0){
+    if (this.state.quantity !== 0){
       this.setState({quantity: this.state.quantity - 1});
       this.props.handleTotal(-this.props.price);
-      this.props.handleQty(this.props.name, 1, -this.props.price);
+      this.props.handleQuantity(this.props.name, 1, -this.props.price);
     }
   }
 
@@ -31,27 +31,10 @@ show(){
     this.props.handleShow(this.props.name);
   }
 
-    render(){
-      return(
-        <div>
-             <tr>
-              <td>{this.props.name}</td>
-              <td>{this.props.quantity}</td>
-              <td>P{this.props.price}</td> 
-            </tr>
-       
-        </div>
-      );
-    }
-  }
-
-
-class CheckOut extends Component {
-
   render(){
     return(
     <div>
-      <input type="text" placeholder="Search"  style = {{width: 390}}/>
+      
       <br/>
       <br/>
         <div className="selected">
@@ -71,11 +54,7 @@ class CheckOut extends Component {
       </tbody>
 
         </div>
-        <br/>
-        Discount:
-        <br/>
-        Subtotal:
-        <br/>
+        
         Total:
     </div>
 
@@ -132,13 +111,14 @@ class ItemForm extends Component {
 class Item extends Component {
 constructor(props) {
   super(props);
-  this.state={ 
+  this.state={total: 0, 
     items: [
     {name:"Vitamin A", quantity: 12, price: 10},
     {name:"Vitamin B", quantity: 15, price: 19},
     {name:"Vitamin C", quantity: 17, price: 17},
     {name:"Vitamin C", quantity: 17, price: 17}],orders:[]
     };
+    
     this.createProduct = this.createProduct.bind(this);
   }
  
@@ -164,6 +144,7 @@ constructor(props) {
         </tr>   
       );
     });
+
 
     return  (
     <div>  
