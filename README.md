@@ -50,3 +50,10 @@ Add the following codes to import component and css:
 
 Components let you split the UI into different pieces.
 Create a new component Item
+
+
+
+
+### View
+
+![pos_view](md/pos-view.png)

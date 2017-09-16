@@ -1,4 +1,10 @@
-.selected {
+.box {
   border: solid black;
   height: 300px;
+  width: 500px;
+}
+
+
+td {
+	width: 100px;
 }

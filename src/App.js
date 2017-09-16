@@ -13,8 +13,7 @@ class Product extends Component {
 
   }
 
-  buy(){ // methods
-    // alert("its working");
+  buy(){ 
     if (this.props.qty != 0){
     this.setState({qty: this.state.qty + 1});
     this.props.handleTotal(this.props.price);
@@ -44,7 +43,9 @@ class Product extends Component {
         <div>
           <table>
             <tr>
-              <td>{this.props.name} ({this.props.qty}) = ${this.props.price}</td>
+              <td>{this.props.name} </td>
+              <td>{this.props.qty} </td> 
+              <td>{this.props.price}</td>
               <td><button onClick={this.buy}>+</button></td>
               <td><button onClick={this.remove}>-</button></td>
             </tr>
@@ -69,12 +70,14 @@ class Total extends Component{
 
 class SelectedItem extends Component{
   render(){
-    return(
+     return(
           <div>
             <tr>
               <td>{this.props.name}</td>&nbsp; &nbsp;
-              <td>{this.props.qty}</td>&nbsp; &nbsp;
+              <td>{this.props.qty}</td> &nbsp; &nbsp;
               <td>{this.props.price}</td>&nbsp; &nbsp;
+              <td><button onClick={this.remove}>-</button></td>&nbsp; &nbsp;
+                        
             </tr>
           </div>
     );
@@ -248,17 +251,9 @@ class ProductList extends Component{
         <div className = "col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <div>
          <h3>Orders</h3>
-         <div className="box">
-            <table>
-              <tr>
-                  <th>Item</th> &nbsp; &nbsp;
-                  <th>Quantity</th> &nbsp; &nbsp;
-                  <th>Price</th> &nbsp; &nbsp;
-                </tr>
-              <tr>
-                  {selected}
-              </tr>
-            </table>
+         <div className="box"> 
+             
+              {selected}
            
          </div>
         </div>
