@@ -46,6 +46,28 @@ Add the following codes to import component and css:
 
 ```
 
+### Code Snippets: Product List
+```
+  class ProductList extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      total:0, 
+      productList: [
+      {name: "Vitamin A", qty: 20, price: 10}, 
+      {name: "Vitamin B", qty: 50, price: 20},
+      {name: "Vitamin C", qty: 30, price: 40},
+      {name: "Vitamin D", qty: 40, price: 50},
+      ],
+      orders: []
+    };
+    this.calcTotal =  this.calcTotal .bind(this);
+    this.createProduct = this.createProduct.bind(this);
+    this.calcQty = this.calcQty.bind(this);
+  }
+
+```
+
 ### Creating Component
 
 Components let you split the UI into different pieces.
